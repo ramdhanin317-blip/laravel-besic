@@ -13,30 +13,18 @@ class LecturerController extends Controller
      */
     public function index()
 {
-    {
-    $keyword = request('keyword');
-    $department_id = request('department_id');
-
-    $lecturers = Lecturer::query();
-
-    // Search nama
-    if ($keyword) {
-        $lecturers->where('name', 'like', '%' . $keyword . '%');
-    }
-
-    // Filter department
-    if ($department_id) {
-        $lecturers->where('department_id', $department_id);
-    }
-
-    }
-    $lecturers = $lecturers->latest()->paginate(5)->withQueryString();
+    $lecturers = Lecturer::query()
+        ->filter(request(['keyword', 'department_id']))
+        ->latest()
+        ->paginate(5)
+        ->withQueryString();
 
     return view('lecturer.index', [
         'title' => 'Lecturer',
         'lecturers' => $lecturers,
         'departments' => Department::all(),
     ]);
+
 }
 
     /**
@@ -117,7 +105,7 @@ class LecturerController extends Controller
      */
     public function destroy(Lecturer $lecturer)
     {
-        $lecturer->delete;
+        $lecturer->delete();
 
         return to_route('lecturer.index')->withSuccess('Data berhasil dihapus');
     }
