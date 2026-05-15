@@ -11,7 +11,7 @@
 
     <body>
         {{-- navigasi --}}
-        <nav class="navbar navbar-expand-lg bg-warning navbar-dark">
+        <nav class="navbar navbar-expand-lg bg-danger navbar-dark">
             <div class="container">
                 <a class="navbar-brand" href="#">UNITAMA</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
