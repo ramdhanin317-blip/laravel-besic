@@ -14,8 +14,11 @@ class Organization extends Model
     /** @use HasFactory<\Database\Factories\OrganizationFactory> */
     use HasFactory, HasUuids;
 
+    protected $guarded = [];
+
         public function organizationLeader(): HasOne
     {
         return $this->hasOne(OrganizationLeader::class);
+
     }
 }

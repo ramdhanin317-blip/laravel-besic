@@ -15,7 +15,7 @@ class StudentController extends Controller
 
         return view('student.index', [
             'title' => 'Student',
-            'students' => Student::latest()->get(),
+            'students' => Student::all(),
             // 'students' => Student::orderBy('name, 'dasc)->get(),
             ]);
     }
@@ -35,14 +35,17 @@ class StudentController extends Controller
     {
         {
     $validated = $request->validate([
-        'name' => 'required|max:255',
-        'nim' => 'required|digits:11|numeric',
+    'name' => 'required',
+    'nim' => 'required|digits:11|numeric',
+    'gender' => 'required|in:L,P',
+
     ], [
         'name.required' => 'Nama tidak boleh kosong',
         'name.max' => 'Nama tidak boleh lebih dari :max karakter',
         'nim.required' => 'NIM tidak boleh kosong',
         'nim.digits' => 'NIM Wajib :digits digit',
         'nim.numeric' => 'NIM Wajib angka',
+        'gender.required' => 'Gender wajib diisi',
     ]);
 
     Student::create($validated);
@@ -97,7 +100,29 @@ class StudentController extends Controller
      */
     public function destroy(Student $student)
     {
-    $student->delete($student);
+    $student->delete();
     return to_route('student.index')->withSuccess('Data berhasil dihapus');
+    }
+
+    // Soft Delete
+    public function trash()
+    {
+        return view('student.trash', [
+            'title' => 'Trash Student',
+            'students' => Student::onlyTrashed()->latest()->get(),
+            // 'students' => Student::orderBy('name, 'dasc)->get(),
+            ]);
+    }
+    
+    public function restore(Student $student)
+    {
+    $student->restore();
+    return to_route('student.trash')->withSuccess('Data berhasil dikembalikan');
+    }
+
+    public function forceDelete(Student $student)
+    {
+    $student->forceDelete();
+    return to_route('student.trash')->withSuccess('Data berhasil dihapus Secara Permanent');
     }
 }

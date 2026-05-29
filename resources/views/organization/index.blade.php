@@ -13,7 +13,7 @@
 
         @foreach ($organizations as $organization)
             <li class="list-group-item">
-                {{ $loop->iteration }}. {{ $organization->organizationLeader->leader_name }} --
+                {{ $loop->iteration }}. {{ $organization->organizationLeader?->leader_name }} --
                 {{ $organization->name }}
                 <a class="btn btn-warning btn-sm" href="{{ route('organization.edit', $organization) }}"
                     role="button">Edit</a>

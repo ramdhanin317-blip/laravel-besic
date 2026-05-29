@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 #[Fillable(['name'])]
 class Department extends Model
 {
-        public function lacturers(): HasMany
+    public function lecturers(): HasMany
     {
         return $this->hasMany(Lecturer::class);
     }
